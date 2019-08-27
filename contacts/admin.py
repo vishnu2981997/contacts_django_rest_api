@@ -1,22 +1,12 @@
-from django.contrib import admin
+from material.admin.options import MaterialModelAdmin
+from material.admin.sites import site
 from .models import *
 
 
-# Register your models here.
-
-
-class ContactAdmin(admin.ModelAdmin):
+class ContactAdmin(MaterialModelAdmin):
     list_display = ("name", "email", "image", "created", "owner")
     list_filter = ["name", "email", "created", "owner__username"]
     search_fields = ["name", "email", "owner__username"]
 
-    # @staticmethod
-    # def numbers(obj):
-    #     numbers = MobileNumber.objects.filter(contact=obj.id)
-    #     if numbers:
-    #         return " ".join(str(i.number) for i in numbers)
-    #     else:
-    #         return None
 
-
-admin.site.register(Contact, ContactAdmin)
+site.register(Contact, ContactAdmin)
