@@ -6,9 +6,17 @@ from .models import *
 
 
 class ContactAdmin(admin.ModelAdmin):
-    list_display = ("name", "email", "number", "file", "created", "owner")
-    list_filter = ["name", "email", "number", "created", "owner"]
-    search_fields = ["name", "email", "number"]
+    list_display = ("name", "email", "image", "created", "owner")
+    list_filter = ["name", "email", "created", "owner__username"]
+    search_fields = ["name", "email", "owner__username"]
+
+    # @staticmethod
+    # def numbers(obj):
+    #     numbers = MobileNumber.objects.filter(contact=obj.id)
+    #     if numbers:
+    #         return " ".join(str(i.number) for i in numbers)
+    #     else:
+    #         return None
 
 
 admin.site.register(Contact, ContactAdmin)

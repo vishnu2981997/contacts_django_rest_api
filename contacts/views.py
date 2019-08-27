@@ -1,5 +1,7 @@
-from rest_framework import permissions, status
-from rest_framework import viewsets
+from rest_framework import permissions
+from rest_framework import status, viewsets
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.decorators import action
 from rest_framework.parsers import FileUploadParser
 from rest_framework.response import Response
 
@@ -8,11 +10,11 @@ from .serializers import *
 
 class UserViewSet(viewsets.ModelViewSet):
     """
-    This viewset automatically provides `list` and `detail` actions.
+    Users
     """
-    queryset = User.objects.all().order_by('id')
+    queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = (permissions.IsAdminUser, permissions.IsAuthenticated)
+    permission_classes = (permissions.AllowAny,)
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -28,11 +30,11 @@ class UserViewSet(viewsets.ModelViewSet):
 
 class ContactViewSet(viewsets.ModelViewSet):
     """
-    This viewset automatically provides `list` and `detail` actions.
+    Contacts
     """
-    queryset = User.objects.all().order_by('id')
+    queryset = User.objects.all()
     serializer_class = ContactSerializer
-    permission_classes = (permissions.IsAdminUser,)
+    permission_classes = (permissions.IsAuthenticated,)
     parser_class = (FileUploadParser,)
 
     def create(self, request, *args, **kwargs):
