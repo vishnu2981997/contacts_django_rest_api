@@ -8,7 +8,7 @@ class ContactDetail(models.Model):
     owner = models.ForeignKey('auth.User', related_name='contact_details', on_delete=models.CASCADE)
     name = models.CharField(max_length=32, blank=False)
     email = models.EmailField(blank=False)
-    image = models.ImageField(upload_to=path + "\\images", default=path + "default.png", blank=True)
+    image = models.ImageField(upload_to=path + "\\images", default=path + "\\default.png", blank=True)
     created = models.DateTimeField(auto_now_add=True, editable=False)
 
     class Meta:
