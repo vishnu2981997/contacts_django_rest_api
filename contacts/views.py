@@ -2,7 +2,7 @@ from rest_framework import permissions
 from rest_framework import status, viewsets
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.decorators import action
-from rest_framework.parsers import FileUploadParser
+from rest_framework.parsers import FileUploadParser, MultiPartParser
 from rest_framework.response import Response
 
 from .serializers import *
@@ -64,9 +64,9 @@ class ContactViewSet(viewsets.ModelViewSet):
     Contacts
     """
     queryset = User.objects.all()
-    serializer_class = ContactSerializer
+    serializer_class = ContactDetailSerializer
     permission_classes = (permissions.IsAuthenticated,)
-    parser_class = (FileUploadParser,)
+    parser_class = (FileUploadParser, MultiPartParser,)
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -81,7 +81,7 @@ class ContactViewSet(viewsets.ModelViewSet):
         serializer.save(owner=self.request.user)
 
     def get_queryset(self):
-        return Contact.objects.filter(owner=self.request.user)
+        return ContactDetail.objects.filter(owner=self.request.user)
 
     # uncomment to modify retrieve operation
 
@@ -99,7 +99,7 @@ class ContactViewSet(viewsets.ModelViewSet):
         """
         Returns contact data ordered by name
         """
-        contacts = Contact.objects.filter(owner=self.request.user).order_by('name')
+        contacts = ContactDetail.objects.filter(owner=self.request.user).order_by('name')
 
         return self.order(contacts)
 
@@ -108,7 +108,7 @@ class ContactViewSet(viewsets.ModelViewSet):
         """
         Returns contact data ordered by id
         """
-        contacts = Contact.objects.filter(owner=self.request.user).order_by('id')
+        contacts = ContactDetail.objects.filter(owner=self.request.user).order_by('id')
 
         return self.order(contacts)
 
@@ -117,7 +117,7 @@ class ContactViewSet(viewsets.ModelViewSet):
         """
         Returns contact data ordered by email
         """
-        contacts = Contact.objects.filter(owner=self.request.user).order_by('email')
+        contacts = ContactDetail.objects.filter(owner=self.request.user).order_by('email')
 
         return self.order(contacts)
 
@@ -126,7 +126,7 @@ class ContactViewSet(viewsets.ModelViewSet):
         """
         Returns recently created contacts
         """
-        contacts = Contact.objects.filter(owner=self.request.user).order_by('-created')
+        contacts = ContactDetail.objects.filter(owner=self.request.user).order_by('-created')
 
         return self.order(contacts)
 
