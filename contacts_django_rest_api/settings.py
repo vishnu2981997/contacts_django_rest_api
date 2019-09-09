@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'contacts',
+    'rest_framework_swagger',
 ]
 
 MIDDLEWARE = [
@@ -120,7 +121,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': config('PAGE_SIZE', cast=int)
+    'PAGE_SIZE': config('PAGE_SIZE', cast=int),
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
 }
 
 # Internationalization
