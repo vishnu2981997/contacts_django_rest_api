@@ -16,13 +16,23 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.documentation import include_docs_urls
+from rest_framework.routers import DefaultRouter
 from rest_framework_swagger.views import get_swagger_view
+
+from contacts.views import ContactViewSet
+from users.views import UserViewSet
 
 schema_view = get_swagger_view(title='Contacts API')
 
+router = DefaultRouter()
+router.register(r'users', UserViewSet, "users")
+router.register(r'contacts', ContactViewSet, "contacts")
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include("contacts.urls")),
+    path('', include(router.urls)),
+    path('contacts/', include("contacts.urls")),
+    path('users/', include("users.urls")),
     path('api-auth/', include('rest_framework.urls')),
     path('docs/', include_docs_urls(title='Contacts API')),
 ]
