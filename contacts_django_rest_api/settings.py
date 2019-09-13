@@ -75,7 +75,7 @@ WSGI_APPLICATION = 'contacts_django_rest_api.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-database = config("DATABASE")
+database = config("DATABASE", None)
 if database == "custom":
     DATABASES = {
         'default': {
